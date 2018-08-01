@@ -1,45 +1,60 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
-// import registerServiceWorker from './registerServiceWorker';
+import React from 'react';
+import { render } from 'react-dom';
+
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import logger from 'redux-logger'
+import { App } from './app/components/App'
+import { Provider } from "react-redux";
 
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-// registerServiceWorker();
-import { createStore } from "redux";
-
-const initialState = {
-  result: 1,
-  lastValues: []
-}
-
-const reducer = (state = initialState, action) => {
+const mathReducer = (state = { result: 1, lastValues: [] }, action) => {
   switch (action.type) {
     case "ADD":
-      state.result += action.payload
+      state = {
+        ...state,
+        result: state.result + action.payload,
+        lastValues: [...state.lastValues, action.payload]
+      }
       break;
     case "SUBSTRACT":
-    state.result -= action.payload
-      break;
-    default:
+      state = {
+        ...state,
+        result: state.result - action.payload,
+        lastValues: [...state.lastValues, action.payload]
+      }
       break;
   }
   return state
 }
 
-const store = createStore(reducer);
 
-store.subscribe(() => {
-  console.log('Store update', store.getState())
-})
+const userReducer = (state = { name: 'Aroa', age: 23 }, action) => {
+  switch (action.type) {
+    case "SET_NAME":
+      state = {
+        ...state,
+        name: action.payload
+      }
+      break;
+    case "SET_AGE":
+      state = {
+        ...state,
+        age: action.payload
+      }
+      break;
+  }
+  return state
+}
 
-store.dispatch({
-  type: 'ADD',
-  payload: 100
-})
-store.dispatch({
-  type: 'SUBSTRACT',
-  payload: 10
-})
+
+const store = createStore(
+  combineReducers({ math: mathReducer, user: userReducer }),
+  {},
+  applyMiddleware(logger)
+)
 
 
+render(<Provider store={store}>
+  <App />
+</Provider>
+  , window.document.getElementById('root'))
