@@ -1,4 +1,4 @@
-export default userReducer = (state = { name: 'Aroa', age: 23 }, action) => {
+const userReducer = (state = { name: 'Aroa', age: 23 }, action) => {
   switch (action.type) {
     case 'SET_NAME':
       state = {
@@ -13,4 +13,7 @@ export default userReducer = (state = { name: 'Aroa', age: 23 }, action) => {
       }
       break
   }
+  return state
 }
+
+export default userReducer
