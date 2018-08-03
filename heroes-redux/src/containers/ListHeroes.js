@@ -9,6 +9,7 @@ function ListHeroes(props) {
       <div>
         {props.heroes.heroes.map(hero => (
           <Hero key={hero.id} hero={hero} />
+          
         ))}
       </div>
     </div>
