@@ -16,13 +16,13 @@ class App extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
   return {
     user: state.user,
     math: state.math
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     setName: (name) => {
